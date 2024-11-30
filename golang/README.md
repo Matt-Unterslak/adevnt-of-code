@@ -76,6 +76,7 @@ Advent of Code (https://adventofcode.com) is a yearly series of programming ques
 * Open developer tools > Application/Storage > Cookies
 * Retrieve the contents of `session`
 * Export it as `AOC_SESSION`
+  * Add this to your profile to make this work automatically in any terminal. 
 
 With your session set, running `code.go` will download your user-specifc `input-user.txt` and also update `README.md` with part 2 of the question once you've completed part 1.
 
