@@ -61,11 +61,9 @@ func extractInputPart1(input string) ([]int, []int) {
 }
 
 func calculateVariance(list1 []int, list2 []int) int {
-	var variances []int
 	totalVariance := 0
 	for i := 0; i < len(list1); i++ {
 		variance := int(math.Abs(float64(list1[i] - list2[i])))
-		variances = append(variances, variance)
 		totalVariance += variance
 	}
 	//fmt.Printf("variances: %v\n", variances)
@@ -105,19 +103,12 @@ func mapDuplicateCharacters(slice []string) map[string]int {
 }
 
 func calculateSimilarity(slice1 []string, map2 map[string]int) int {
-	var similarities []int
-	var processedNumbers []string
 	totalSimilarities := 0
 
 	// Iterate through the map
 	for _, row := range slice1 {
-		processedNumbers = append(processedNumbers, row)
-
 		occurrencesInList2 := map2[row]
 		similarity := convertStrToInt(row) * occurrencesInList2
-
-		//fmt.Printf("key: %v, occurrencesInList2: %v, similarity: %v\n", row, occurrencesInList2, similarity)
-		similarities = append(similarities, similarity)
 		totalSimilarities += similarity
 	}
 	//fmt.Printf("variances: %v\n", variances)
