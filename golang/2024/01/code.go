@@ -60,11 +60,11 @@ func extractInputPart1(input string) ([]int, []int) {
 	return list1, list2
 }
 
-func calculateVariance(list_1 []int, list_2 []int) int {
+func calculateVariance(list1 []int, list2 []int) int {
 	var variances []int
 	totalVariance := 0
-	for i := 0; i < len(list_1); i++ {
-		variance := int(math.Abs(float64(list_1[i] - list_2[i])))
+	for i := 0; i < len(list1); i++ {
+		variance := int(math.Abs(float64(list1[i] - list2[i])))
 		variances = append(variances, variance)
 		totalVariance += variance
 	}
@@ -75,8 +75,8 @@ func calculateVariance(list_1 []int, list_2 []int) int {
 
 func solvePart1(input string) any {
 	list1, list2 := extractInputPart1(input)
-	total_variance := calculateVariance(list1, list2)
-	return total_variance
+	totalVariance := calculateVariance(list1, list2)
+	return totalVariance
 }
 
 func extractInputPart2(input string) ([]string, []string) {
