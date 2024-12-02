@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/jpillora/puzzler/harness/aoc"
 	"math"
 	"sort"
@@ -14,29 +13,29 @@ func main() {
 }
 
 // on code change, run will be executed 4 times:
-// 1. with: false (part1), and example input
-// 2. with: true (part2), and example input
-// 3. with: false (part1), and user input
-// 4. with: true (part2), and user input
-// the return value of each run is printed to stdout
+// 1. with: false (part1), and example input.
+// 2. with: true (part2), and example input.
+// 3. with: false (part1), and user input.
+// 4. with: true (part2), and user input.
+// the return value of each run is printed to stdout.
 func run(part2 bool, input string) any {
-
-	// when you're ready to do part 2, remove this "not implemented" block
+	// solve part 2.
 	if part2 {
 		return solvePart2(input)
 	}
-	// solve part 1 here
+	// solve part 1.
 	return solvePart1(input)
 }
 
 func convertStrToInt(str string) int {
-	// string to int
-	i, err := strconv.Atoi(str)
+	// string to int.
+	convertedInt, err := strconv.Atoi(str)
 	if err != nil {
-		// ... handle error
+		// ... handle error.
 		panic(err)
 	}
-	return i
+
+	return convertedInt
 }
 
 func extractInputPart1(input string) ([]int, []int) {
@@ -57,6 +56,7 @@ func extractInputPart1(input string) ([]int, []int) {
 	sort.Slice(list2, func(i, j int) bool {
 		return list2[i] < list2[j]
 	})
+
 	return list1, list2
 }
 
@@ -66,14 +66,15 @@ func calculateVariance(list1 []int, list2 []int) int {
 		variance := int(math.Abs(float64(list1[i] - list2[i])))
 		totalVariance += variance
 	}
-	//fmt.Printf("variances: %v\n", variances)
-	fmt.Printf("total variances: %v\n", totalVariance)
+	// fmt.Printf("variances: %v\n", variances)
+	// fmt.Printf("total variances: %d\n", totalVariance)
 	return totalVariance
 }
 
 func solvePart1(input string) any {
 	list1, list2 := extractInputPart1(input)
 	totalVariance := calculateVariance(list1, list2)
+
 	return totalVariance
 }
 
@@ -87,32 +88,34 @@ func extractInputPart2(input string) ([]string, []string) {
 		list1 = append(list1, fields[0])
 		list2 = append(list2, fields[1])
 	}
+
 	return list1, list2
 }
 
 func mapDuplicateCharacters(slice []string) map[string]int {
-	// Initialize an empty map to store counts
+	// Initialize an empty map to store counts.
 	countMap := make(map[string]int)
 
-	// Iterate over the slice
+	// Iterate over the slice.
 	for _, str := range slice {
-		// Increment the count for each string in the map
+		// Increment the count for each string in the map.
 		countMap[str]++
 	}
+
 	return countMap
 }
 
 func calculateSimilarity(slice1 []string, map2 map[string]int) int {
 	totalSimilarities := 0
 
-	// Iterate through the map
+	// Iterate through the map.
 	for _, row := range slice1 {
 		occurrencesInList2 := map2[row]
 		similarity := convertStrToInt(row) * occurrencesInList2
 		totalSimilarities += similarity
 	}
-	//fmt.Printf("variances: %v\n", variances)
-	fmt.Printf("total similarities: %v\n", totalSimilarities)
+	// fmt.Printf("variances: %v\n", variances)
+	// fmt.Printf("total similarities: %v\n", totalSimilarities)
 	return totalSimilarities
 }
 
@@ -120,5 +123,6 @@ func solvePart2(input string) any {
 	list1, list2 := extractInputPart2(input)
 	map2 := mapDuplicateCharacters(list2)
 	totalSimilarity := calculateSimilarity(list1, map2)
+
 	return totalSimilarity
 }
