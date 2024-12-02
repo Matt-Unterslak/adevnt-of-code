@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/jpillora/puzzler/harness/aoc"
 	"math"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -20,6 +21,7 @@ func main() {
 func run(part2 bool, input string) any {
 	// when you're ready to do part 2, remove this "not implemented" block
 	if part2 {
+
 		return solvePart2(input)
 	}
 	// solve part 1 here
@@ -74,31 +76,18 @@ func isReportMonotonic(index int, value int, previousValues []int) bool {
 func getReportSafety(report []int) int {
 	isSafe := true
 	var previousCompares []int
-	previousCompare := 0
-	isMonotonic := true
 	for c := 0; c < len(report)-1; c++ {
 		currentValue := report[c]
 		nextValue := report[c+1]
 		currentCompare := currentValue - nextValue
 		previousCompares = append(previousCompares, currentCompare)
 
-		if c == 0 {
-			previousCompare = previousCompares[c]
-		} else {
-			previousCompare = previousCompares[c-1]
-		}
-
-		if (currentCompare > 0 && previousCompare > 0) || (currentCompare < 0 && previousCompare < 0) {
-			isMonotonic = true
-		} else {
-			isMonotonic = false
-		}
-
+		isMonotonicCalculation := isReportMonotonic(c, currentCompare, previousCompares)
 		levelGap := int(math.Abs(float64(currentCompare)))
 
 		//fmt.Printf("Current value: %v, next value: %v, current gap: %v, previous gap: %v\n", currentValue, nextValue, currentCompare, previousCompare)
 		//fmt.Printf("level gap: %v, monotonic: %v\n", levelGap, isMonotonic)
-		if isMonotonic && levelGap > 0 && levelGap <= 3 {
+		if isMonotonicCalculation && levelGap > 0 && levelGap <= 3 {
 			isSafe = true
 		} else {
 			isSafe = false
@@ -129,8 +118,55 @@ func solvePart1(input string) any {
 	return calculateLevelSafety(inputRows)
 }
 
+func removeCurrentValueFromReport(currentIndex int, report []int) []int {
+	// Create a new slice by copying
+	newReport := make([]int, 0, len(report)-1)
+	newReport = append(newReport, report[:currentIndex]...)
+	newReport = append(newReport, report[currentIndex+1:]...)
+
+	//fmt.Printf("Excluding index %d (%d): %v\n", currentIndex, report[currentIndex], newReport)
+	return newReport
+}
+
+func getReportSafetyWithDampener(report []int) int {
+	var safeValues []int
+
+	safeReport := getReportSafety(report)
+	if safeReport == 1 {
+		return 1
+	} else {
+		for c := 0; c < len(report); c++ {
+			// Create a new slice excluding the current element
+			removeCurrentLevel := removeCurrentValueFromReport(c, report)
+			isSafe := getReportSafety(removeCurrentLevel)
+			//fmt.Printf("Reduced report: %v, safety: %v\n", removeCurrentLevel, isSafe)
+			safeValues = append(safeValues, isSafe)
+		}
+		//fmt.Printf("new safe: %v\n", safeValues)
+
+		if slices.Contains(safeValues, 1) {
+			//fmt.Printf("unsafe report detected: %v, report is now safe\n", report)
+			return 1
+		} else {
+			//fmt.Printf("unsafe report detected: %v\n", report)
+			return 0
+		}
+	}
+
+}
+
+func calculateLevelSafetyWithDampener(matrix [][]int) int {
+	totalSafe := 0
+	for _, row := range matrix {
+		reportSafe := getReportSafetyWithDampener(row)
+		//fmt.Printf("Report safety: %v\n", reportSafe)
+		totalSafe += reportSafe
+	}
+	return totalSafe
+}
+
 func solvePart2(input string) any {
 	inputRows := extractInputPart1(input)
 	//fmt.Printf("input data: %v\n", inputRows)
-	return calculateLevelSafety(inputRows)
+	return calculateLevelSafetyWithDampener(inputRows)
 }
