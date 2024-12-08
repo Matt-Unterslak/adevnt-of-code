@@ -1,6 +1,6 @@
 ## \-\-\- Day 8: Resonant Collinearity ---
 
-You find yourselves on the [roof](https://adventofcode.com/2016/day/25) of a top-secret Easter Bunny installation.
+You find yourselves on the [roof](/2016/day/25) of a top-secret Easter Bunny installation.
 
 While The Historians do their thing, you take a look at the familiar _huge antenna_. Much to your surprise, it seems to have been reconfigured to emit a signal that makes people 0.1% more likely to buy Easter Bunny brand Imitation Mediocre Chocolate as a Christmas gift! Unthinkable!
 
@@ -93,3 +93,49 @@ The first example has antennas with two different frequencies, so the antinodes 
 Because the topmost `A`-frequency antenna overlaps with a `0`-frequency antinode, there are `14` total unique locations that contain an antinode within the bounds of the map.
 
 Calculate the impact of the signal. _How many unique locations within the bounds of the map contain an antinode?_
+
+## \-\-\- Part Two ---
+
+Watching over your shoulder as you work, one of The Historians asks if you took the effects of resonant harmonics into your calculations.
+
+Whoops!
+
+After updating your model, it turns out that an antinode occurs at _any grid position_ exactly in line with at least two antennas of the same frequency, regardless of distance. This means that some of the new antinodes will occur at the position of each antenna (unless that antenna is the only one of its frequency).
+
+So, these three `T`-frequency antennas now create many antinodes:
+
+```
+T....#....
+...T......
+.T....#...
+.........#
+..#.......
+..........
+...#......
+..........
+....#.....
+..........
+
+```
+
+In fact, the three `T`-frequency antennas are all exactly in line with two antennas, so they are all also antinodes! This brings the total number of antinodes in the above example to `9`.
+
+The original example now has `34` antinodes, including the antinodes that appear on every antenna:
+
+```
+##....#....#
+.#.#....0...
+..#.#0....#.
+..##...0....
+....0....#..
+.#...#A....#
+...#..#.....
+#....#.#....
+..#.....A...
+....#....A..
+.#........#.
+...#......##
+
+```
+
+Calculate the impact of the signal using this updated model. _How many unique locations within the bounds of the map contain an antinode?_
